@@ -60,7 +60,6 @@ namespace FrogBattleV2.Classes.Characters
         }
         private static StatusEffect KnifeRain => knifeRain.Clone();
         private static StatusEffect Checkmate => checkmate.Clone();
-        //private static StatusEffect Hysteria => hysteria.Clone();
 
         #endregion
 
