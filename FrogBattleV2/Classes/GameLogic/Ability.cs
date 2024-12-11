@@ -77,13 +77,14 @@ namespace FrogBattleV2.Classes.GameLogic
             ReverseCost
         }
         private readonly CostType _costType;
+        public virtual CostType GetCostType() => _costType;
         /// <summary>
         /// <para>An ability with a soft cost can still be used if you don't have enough resources (eg, you have 5 mana and the ability costs 20)</para>
         /// <para>In such cases, the corresponding value will still be deducted, potentially into the negatives.</para>
         /// </summary>
-        public bool IsHardCost => _costType == CostType.HardCost;
-        public bool IsSoftCost => _costType == CostType.SoftCost;
-        public bool IsReverseCost => _costType == CostType.ReverseCost;
+        public bool IsHardCost => GetCostType() == CostType.HardCost;
+        public bool IsSoftCost => GetCostType() == CostType.SoftCost;
+        public bool IsReverseCost => GetCostType() == CostType.ReverseCost;
         public Cost(double mana = 0, double energy = 0, double health = 0, CostType costType = CostType.HardCost)
         {
             if (costType == CostType.ReverseCost)
@@ -105,11 +106,12 @@ namespace FrogBattleV2.Classes.GameLogic
     internal class DynamicCost : Cost
     {
         private readonly Fighter user;
+        public override CostType GetCostType() => CalculateCost(user).GetCostType();
         public override double ManaCost => CalculateCost(user).ManaCost;
         public override double EnergyCost => CalculateCost(user).EnergyCost;
         public override double HealthCost => CalculateCost(user).HealthCost;
         public Func<Fighter, Cost> CalculateCost;
-        public DynamicCost(Fighter user, Func<Fighter, Cost> calculateCost, CostType costType = CostType.HardCost) : base(costType: costType)
+        public DynamicCost(Fighter user, Func<Fighter, Cost> calculateCost) : base()
         {
             this.user = user;
             CalculateCost = calculateCost;

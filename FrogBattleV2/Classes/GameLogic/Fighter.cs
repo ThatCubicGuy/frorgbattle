@@ -156,7 +156,7 @@ namespace FrogBattleV2.Classes.GameLogic
         protected Ability SkipTurn => new(SkipTurnAction, new(), null);
 
         #region Common buffs and debuffs that can be reimplemented by different fighters
-        private static readonly StatusEffect bleed = new("Bleed", PropID.Debuff, 3, 4, new StatusEffect.DamageOverTime(DotID.Bleed, 0.0125));
+        private static readonly StatusEffect bleed = new("Bleed", PropID.Debuff, 2, 4, new StatusEffect.DamageOverTime(DotID.Bleed, 0.0125));
         private static readonly StatusEffect burn = new("Burn", PropID.Debuff, 3, 1, new StatusEffect.DamageOverTime(DotID.Burn, 100));
         private static readonly StatusEffect shock = new("Shock", PropID.Debuff, 3, 1, new StatusEffect.DamageOverTime(DotID.Shock, 0.6));
         private static readonly StatusEffect windShear = new("Wind Shear", PropID.Debuff, 3, 5, new StatusEffect.DamageOverTime(DotID.WindShear, 0.2));
@@ -442,14 +442,14 @@ namespace FrogBattleV2.Classes.GameLogic
                     nr++;
                 }
             }
-            StunTime = turns;
+            if (turns > StunTime) StunTime = turns;
             if (turns == 0) return $"\n{Name} is too fast to get stunned!";
             //else if (nr > 0) return $"\n{Name} proves resilient and only gets stunned for {turns} of the {turns+nr} rounds!";
             else return $"\n{Name} gets stunned for {turns} rounds!";
         }
         public void TrueStun(int turns)
         {
-            StunTime = turns;
+            if (turns > StunTime) StunTime = turns;
         }
         /// <summary>
         /// Checks ActiveEffects for an identical effect, then adds stacks to it (if stackable) and refreshes its duration.
@@ -532,8 +532,11 @@ namespace FrogBattleV2.Classes.GameLogic
         }
         public bool FindEffect(string name)
         {
-            if (ActiveEffects.Find(x => x.Name == name) != null) return true;
-            else return false;
+            return ActiveEffects.Find(x => x.Name == name) != null;
+        }
+        public bool FindEffect(StatusEffect effect)
+        {
+            return ActiveEffects.Contains(effect);
         }
         public double CalculateDoT(Fighter source)
         { // Calculates DoT by checking DoT resistance and vulnerability effects

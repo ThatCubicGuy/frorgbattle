@@ -40,7 +40,7 @@ namespace FrogBattleV2.Classes.Characters
         private static readonly StatusEffect rage = new("Rage", PropID.Unremovable, -1, 20, new StatusEffect.Effect(EffID.DmgBonus, 0.015, true));
         private static readonly StatusEffect precision = new("Precision", PropID.Unremovable, 4, 20, new StatusEffect.Effect[]
                 {
-                    new(EffID.ManaRecovery, 0.05, true),
+                    new(EffID.ManaCost, -0.03, true),
                     new(EffID.BulletBonus, 0.035, true),
                     new(EffID.BlastBonus, 0.05, true),
                     new(EffID.Energy, -0.05, true)
@@ -154,7 +154,7 @@ namespace FrogBattleV2.Classes.Characters
             string output = $"{Name} shoots {target.Name} with a bullet imbued with Cheese!\n";
             if (RNG >= PrecisionStacks / 20.0 && target.Dodge(this))
             {
-                AddEffect(Rage, 3);
+                AddEffect(Rage, 4);
                 return output + target.DodgeMsg;
             }
             target.AddEffect(Cheesed);
@@ -177,7 +177,7 @@ namespace FrogBattleV2.Classes.Characters
                     nr++;
                     target.AddEffect(Tangled);
                     if (PrecisionStacks > 0) target.AddEffect(Slow);
-                    RegenMana(2);
+                    RegenMana(2 - PrecisionStacks / 10.0);
                 }
             }
             if (nr == 0)
@@ -217,7 +217,7 @@ namespace FrogBattleV2.Classes.Characters
                     double dmg = LightDmg(Atk, DmgType.Bullet, target);
                     totalDmg += dmg;
                     output += $"\n{Name} fires a ribbon bullet at {target.Name}, dealing {dmg:0.#} damage";
-                    if ((PrecisionStacks > 0 ? RNG < PrecisionStacks / 20.0 : RNG < 0.5) && x < 9)
+                    if ((PrecisionStacks > 0 ? RNG < PrecisionStacks / 20.0 : RNG < RageStacks / 20.0) && x < 9)
                     {
                         x++;
                         output += " and getting the shot back";
@@ -226,35 +226,37 @@ namespace FrogBattleV2.Classes.Characters
                     output += '!' + target.TakeDamage(dmg, this);
                 }
             }
+            if (x < 7) AddEffect(Rage, (uint)(7 - x));
             if (totalDmg > 0) output += $"\n{Name} dealt a total of {totalDmg:0.#} damage to {target.Name}!";
             else
             {
                 output += $"\n{Name} didn't deal any damage! Outrageous!";
-                AddEffect(Rage, (uint)(RNG * 4) + 1);
+                AddEffect(Rage, (uint)(RNG * 5) + 1);
             }
             return output;
         }
         private string Ability7(Fighter target)
         {
             int missed = 0;
+            int maxHits = 100;
             string output = $"{Name} launches a barrage of pellets!";
-            for (int i = 0; i < 100; i++)
+            for (int i = 0; i < maxHits; i++)
             {
                 if (RNG * 100 < target.Spd - Spd + 30 && RNG >= PrecisionStacks / 20.0) missed++;
             }
             GetEnergy((int)Math.Round(missed / 2.5));
-            double dmg = HeavyDmg((100 - missed) * Atk / 50, DmgType.Bullet, target);
-            output += $"\n{Name} hits {100 - missed} shots of the {100} fired, dealing {dmg:0.#} damage!{target.TakeDamage(dmg, this)}";
+            double dmg = HeavyDmg((maxHits - missed) * Atk / (maxHits * 0.5), DmgType.Bullet, target);
+            output += $"\n{Name} hits {maxHits - missed} shots of the {maxHits} fired, dealing {dmg:0.#} damage!{target.TakeDamage(dmg, this)}";
             if (missed > 0)
             {
                 output += $"\nEvery miss spawns a ribbon!";
-                if (missed >= 80)
+                if (missed >= maxHits * 0.8)
                 {
                     int stun = missed / 10 - 7;
                     target.TrueStun(stun);
                     output += $"\nThe ribbons overwhelm {target.Name} and stun them for {stun} rounds!";
                 }
-                if (missed >= 60)
+                if (missed >= maxHits * 0.6)
                 {
                     double mana = -1 * target.RegenMana((missed + 1) / -4);
                     RegenMana(mana);
@@ -292,22 +294,22 @@ namespace FrogBattleV2.Classes.Characters
         #endregion
         public string SummonAction(Fighter target)
         {
+            if (!target.FindEffect(Cheesed)) return string.Empty;
             double dmg;
+            GetEnergy(5);
             if (RNG < 0.01)
             {
                 dmg = MediumDmg(Atk * 10, 0, target);
                 return $"\nCharlotte REALLY NEEDS that cheese and goes a bit overboard, chomping off {target.Name}'s" +
                     $" head and dealing {dmg:0.#} damage!{target.TakeDamage(dmg, null)}";
             }
-            if (!target.FindEffect("Cheesed")) return string.Empty;
-            GetEnergy(5);
             if (RNG >= PrecisionStacks / 20.0 && target.Dodge(this))
             {
                 AddEffect(Rage);
                 return '\n' + target.DodgeMsg;
             }
             dmg = MediumDmg(Atk, 0, target);
-            return $"\nCharlotte seeks cheese and attacks {target.Name} for {dmg:0.#} damage!" + target.TakeDamage(dmg, null);
+            return $"\nCharlotte seeks cheese and attacks {target.Name} for {dmg:0.#} damage!{target.TakeDamage(dmg, null)}";
         }
     }
 }
