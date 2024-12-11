@@ -40,7 +40,7 @@ namespace FrogBattleV2.Classes.Characters
         private static readonly StatusEffect rage = new("Rage", PropID.Unremovable, -1, 20, new StatusEffect.Effect(EffID.DmgBonus, 0.015, true));
         private static readonly StatusEffect precision = new("Precision", PropID.Unremovable, 4, 20, new StatusEffect.Effect[]
                 {
-                    new(EffID.ManaCost, -0.03, true),
+                    new(EffID.ManaCost, -0.025, true),
                     new(EffID.BulletBonus, 0.035, true),
                     new(EffID.BlastBonus, 0.05, true),
                     new(EffID.Energy, -0.05, true)
