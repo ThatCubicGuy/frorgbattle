@@ -288,7 +288,7 @@ namespace FrogBattleV2.Classes.Characters
                 totalDmg += dmg;
                 output += $"\n{target.Name} takes {dmg:0.#} damage!" + target.TakeDamage(dmg, this);
             }
-            target.AddEffect(LingeringElegance, (PrecisionStacks + 1) / 7);
+            if (PrecisionStacks >= 6) target.AddEffect(LingeringElegance, (PrecisionStacks + 1) / 7);
             return output + $"\n{Name} has dealt a total of {totalDmg:0.#} damage to {target.Name}!";
         }
         #endregion
@@ -299,7 +299,7 @@ namespace FrogBattleV2.Classes.Characters
             GetEnergy(5);
             if (RNG < 0.01)
             {
-                dmg = MediumDmg(Atk * 10, 0, target);
+                dmg = MediumDmg(Atk * 10, DmgType.None, target);
                 return $"\nCharlotte REALLY NEEDS that cheese and goes a bit overboard, chomping off {target.Name}'s" +
                     $" head and dealing {dmg:0.#} damage!{target.TakeDamage(dmg, null)}";
             }

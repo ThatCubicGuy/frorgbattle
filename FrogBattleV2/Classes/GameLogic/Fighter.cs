@@ -452,7 +452,8 @@ namespace FrogBattleV2.Classes.GameLogic
             if (turns > StunTime) StunTime = turns;
         }
         /// <summary>
-        /// Checks ActiveEffects for an identical effect, then adds stacks to it (if stackable) and refreshes its duration.
+        /// <para>Checks ActiveEffects for an identical effect, then adds stacks to it (if stackable) and refreshes its duration.</para>
+        /// <para>Throws an exception if <paramref name="totalStacks"/> is less than 1.</para>
         /// </summary>
         /// <param name="effect">The effect to be stacked, refreshed or added at the end of ActiveEffects.</param>
         public void AddEffect(StatusEffect effect, uint totalStacks = 1)
@@ -591,7 +592,8 @@ namespace FrogBattleV2.Classes.GameLogic
             else abilityResult = Abilities[nr-1].ExecuteAbility(this, target);
             //if (this is IFollowsUp followsUp && abilityResult.IsUsable) return abilityResult with { Message = abilityResult.Message + followsUp.FollowUp.ExecuteAbility(this, target).Message };
             //if (this is IAbilityBonus bonus && ???) return abilityResult with { Message = abilityResult.Message + bonus.Bonus.ExecuteAbility(this, target).Message };
-            return abilityResult + (nr != 0 && this is IFollowsUp followsUp ? followsUp.FollowUp.ExecuteAbility(this, target) : AbilityCheckResult.Empty) + (this is ISummons summons ? summons.Summon.ExecuteAbility(this, target) : AbilityCheckResult.Empty);
+            if (abilityResult.CanContinue) return abilityResult + (nr != 0 && this is IFollowsUp followsUp ? followsUp.FollowUp.ExecuteAbility(this, target) : AbilityCheckResult.Empty) + (this is ISummons summons ? summons.Summon.ExecuteAbility(this, target) : AbilityCheckResult.Empty);
+            else return abilityResult;
         }
         internal AbilityCheckResult CheckUsability(Ability ability)
         {

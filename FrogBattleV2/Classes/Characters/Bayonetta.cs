@@ -87,7 +87,7 @@ namespace FrogBattleV2.Classes.Characters
             Abilities = Weapons[0];
         }
         #region Weapon 1 Abilities
-        private static uint ability1boost = 0;
+        private uint ability1boost = 0;
         private string Ability11(Fighter target)
         {
             string output = $"{Name} punches and kicks {target.Name}!\n";
