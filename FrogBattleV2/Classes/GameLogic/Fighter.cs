@@ -64,17 +64,18 @@ namespace FrogBattleV2.Classes.GameLogic
         public virtual string ShieldBreak(Fighter? target) { return $"\n{Name}'s shield breaks!"; }
         public virtual string BarrierBlock(Fighter? target) { return $"{Name}'s barrier nullifies the damage!"; }
         // Static error messages common across all Fighters
-        public static ApplicationException GameEndMechanic { get; } = new("This is a game mechanic that is supposed to end the game.");
-        public static AbilityCheckResult AbilityUsable { get; } = new(AbilityStatus.Success, string.Empty);
-        public static AbilityCheckResult RepeatsTurn { get; } = new(AbilityStatus.RepeatsTurn, string.Empty);
-        public static AbilityCheckResult NoMana { get; } = new(AbilityStatus.NoResources, "Not enough mana!");
-        public static AbilityCheckResult NoEnergy { get; } = new(AbilityStatus.NoResources, "Not enough energy!");
-        public static AbilityCheckResult NoHp { get; } = new(AbilityStatus.NoResources, "You are going to die!");
-        public static AbilityCheckResult TooMuchMana { get; } = new(AbilityStatus.NoResources, "Too much mana!");
-        public static AbilityCheckResult TooMuchEnergy { get; } = new(AbilityStatus.NoResources, "Too much energy!");
-        public static AbilityCheckResult TooMuchHp { get; } = new(AbilityStatus.NoResources, "You are doing too well!");
-        public static AbilityCheckResult AbilityBlocked { get; } = new(AbilityStatus.TemporarilyBlocked, "You cannot use this ability right now!");
-        public static AbilityCheckResult InvalidAbility { get; } = new(AbilityStatus.PermanentlyBlocked, "Invalid ability!");
+        public static readonly ApplicationException GameEndMechanic = new("This is a game mechanic that is supposed to end the game.");
+
+        public static readonly AbilityCheckResult AbilityUsable = new(AbilityStatus.Success, string.Empty);
+        public static readonly AbilityCheckResult RepeatsTurn = new(AbilityStatus.RepeatsTurn, string.Empty);
+        public static readonly AbilityCheckResult NoMana = new(AbilityStatus.NoResources, "Not enough mana!");
+        public static readonly AbilityCheckResult NoEnergy = new(AbilityStatus.NoResources, "Not enough energy!");
+        public static readonly AbilityCheckResult NoHp = new(AbilityStatus.NoResources, "You are going to die!");
+        public static readonly AbilityCheckResult TooMuchMana = new(AbilityStatus.NoResources, "Too much mana!");
+        public static readonly AbilityCheckResult TooMuchEnergy = new(AbilityStatus.NoResources, "Too much energy!");
+        public static readonly AbilityCheckResult TooMuchHp = new(AbilityStatus.NoResources, "You are doing too well!");
+        public static readonly AbilityCheckResult AbilityBlocked = new(AbilityStatus.TemporarilyBlocked, "You cannot use this ability right now!");
+        public static readonly AbilityCheckResult InvalidAbility = new(AbilityStatus.PermanentlyBlocked, "Invalid ability!");
 
         public string Name { get; protected set; }
         private static readonly Random random = new();
@@ -412,24 +413,6 @@ namespace FrogBattleV2.Classes.GameLogic
             CurrentHp += value;
             return value;
         }
-        /*
-        protected virtual void CheckMana(double cost)
-        { // Returns false if it fails to expend mana.
-            cost += GetEffectsValue(EffID.ManaCost, cost);
-            if (Mana < cost) throw NoMana;
-            else CurrentMana -= cost;
-        }
-        protected virtual void CheckEnergy()
-        {
-            if (Energy < MaxEnergy) throw NoEnergy;
-            else CurrentEnergy = 0;
-        }
-        protected virtual void CheckEnergy(int energy)
-        {
-            if (Energy < energy) throw NoEnergy;
-            else CurrentEnergy -= energy;
-        }
-        */
         public virtual string Stun(int turns, Fighter source)
         { // Stun has a chance to be resisted based on SPD and 
           // the amount of turns that Stun is supposed to last for
