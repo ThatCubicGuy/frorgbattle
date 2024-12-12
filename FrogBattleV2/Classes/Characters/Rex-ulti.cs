@@ -39,7 +39,7 @@ namespace FrogBattleV2.Classes.Characters
                 {
                     new(EffID.ATK, 30, false),
                 });
-        private static readonly StatusEffect demonDealBurnout = new("", PropID.Debuff | PropID.Unremovable, 3, 10);
+        private static readonly StatusEffect demonDealBurnout = new("Demon Deal Cooldown", PropID.Debuff | PropID.Unremovable | PropID.Invisible, 3, 10);
 
         private static StatusEffect PissRain => _pissRain.Clone();
         private static StatusEffect StabBuff => _stabBuff.Clone();
@@ -102,7 +102,7 @@ namespace FrogBattleV2.Classes.Characters
         {
             string output = $"{Name} finds an inherited bug in the code!\n";
             GetEnergy(20);
-            double dmg = MediumDmg(Atk, 0, target, 1);
+            double dmg = Atk * DmgRNG;
             output += $"{Name} ignores literally anything that influences the damage {target.Name} should take and directly reduces their HP by {dmg:0.#}!";
             target.TakeTrueDamage(dmg);
             return output;
@@ -151,7 +151,7 @@ namespace FrogBattleV2.Classes.Characters
                 new(Ability21, new(mana: 14), null),
                 new(Ability22, new(mana: 15), null),
                 new(Ability23, new(mana: 20), null),
-                new(Ability24, new(mana: 30), null),
+                new(Ability24, new(mana: 25), null),
                 new(Ability25, new(mana: 23), null),
                 new(Burst2, new(energy: MaxEnergy), null)
             };
@@ -165,7 +165,7 @@ namespace FrogBattleV2.Classes.Characters
             string output = $"{Name} embodies the Demon of Pride and assumes himself the position of dictator!\n";
             if (target.Dodge(this)) return output + target.DodgeMsg;
             GetEnergy(12);
-            double dmg = HeavyDmg(Atk, 0, target);
+            double dmg = HeavyDmg(Atk, DmgType.None, target);
             output += $"{target.Name} has to suffer though a terrible regime, taking {dmg:0.#} forced labour induced damage!";
             output += target.TakeDamage(dmg, this);
             target.AddEffect(SinfulCreatureDebuff);
@@ -186,7 +186,7 @@ namespace FrogBattleV2.Classes.Characters
             double dmg = -1;
             for (int i = 1; i <= 3; i++)
             {
-                if (target.Dodge(this) && RNG < (ActiveEffects.FirstOrDefault(DemonDealBurnout.Equals)?.Stacks ?? 0) * 10)
+                if (target.Dodge(this) || RNG < (ActiveEffects.FirstOrDefault(DemonDealBurnout.Equals)?.Stacks ?? 0) / 10)
                 {
                     double dmg2 = LightDmg(Atk, DmgType.Magic, this);
                     output += $"\nDemon #{i} DOESN'T take the deal! He instead deals {(int)dmg2} damage to {Name}!";
@@ -197,8 +197,9 @@ namespace FrogBattleV2.Classes.Characters
                     GetEnergy(10);
                     dmg = MediumDmg(Atk, DmgType.Magic, target);
                     double manaRegen = RegenMana(5);
-                    output += $"\nDemon #{i} TAKES the deal! {target.Name} loses {dmg:0.#} HP while {Name} receives {(int)(manaRegen * 10) / 10.0} mana!";
+                    output += $"\nDemon #{i} TAKES the deal! {target.Name} loses {dmg:0.#} HP while {Name} receives {manaRegen:0.#} mana!";
                     output += target.TakeDamage(dmg, null);
+                    AddEffect(DemonDealBurnout);
                 }
             }
             if (dmg != -1) target.AddEffect(SinfulCreatureDebuff);
@@ -260,7 +261,7 @@ namespace FrogBattleV2.Classes.Characters
                 GetEnergy(5);
                 string output = $"\n{target.Name}'s insecurities are prayed on by their friends!\n";
                 if (target.Dodge(this)) return output + target.DodgeMsg;
-                double dmg = MediumDmg(Atk, 0, target, 0.5);
+                double dmg = MediumDmg(Atk, DmgType.None, target, 0.5);
                 output += $"They lose {dmg:0.#} HP!";
                 output += target.TakeDamage(dmg, null);
                 target.AddEffect(SinfulCreatureDebuff);

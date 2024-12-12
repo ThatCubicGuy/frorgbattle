@@ -63,6 +63,7 @@ namespace FrogBattleV2.Classes.Characters
         private static StatusEffect Determination => determination.Clone();
         private static StatusEffect Phase2EnergyBuff => phase2EnergyBuff.Clone();
         private static StatusEffect AfraidDebuff => afraidDebuff.Clone();
+        private static StatusEffect BlasterAtkBuff => blasterAtkBuff.Clone();
 
         #endregion
 
@@ -78,6 +79,8 @@ namespace FrogBattleV2.Classes.Characters
                 return base.Hp;
             }
         }
+
+
         public Cubic(string name) : base(name, 0.75, 60, 0, 250, 250)
         {
             CurrentMana = 60;
@@ -320,22 +323,21 @@ namespace FrogBattleV2.Classes.Characters
         #endregion
         public string FollowUpAction(Fighter target)
         {
-            if (Charging)
-                if (RNG < 0.2)
+            if (Charging && RNG < 0.2)
+            {
+                Charging = false;
+                double dmg = HeavyDmg(Atk, DmgType.Blast, target, 0.5) + HeavyDmg(Atk, DmgType.Blast, target, 0.5);
+                string output = $"\n{target.Name} also gets BLASTED by the previously charging blaster for {dmg:0.#} damage!";
+                output += target.TakeDamage(dmg, this);
+                if (!target.Dodge(this))
                 {
-                    Charging = false;
-                    double dmg = HeavyDmg(Atk, DmgType.Blast, target, 0.5) + HeavyDmg(Atk, DmgType.Blast, target, 0.5);
-                    string output = $"\n{target.Name} also gets BLASTED by the previously charging blaster for {dmg:0.#} damage!";
-                    output += target.TakeDamage(dmg, this);
-                    if (!target.Dodge(this))
-                    {
-                        output += $" They also have their DEF reduced by {DefShred.GetEffectsOfType(EffID.DEF, -100)}% for {DefShred.Turns} turns!";
-                        target.AddEffect(DefShred);
-                    }
-                    RemoveEffect(blasterAtkBuff);
-                    return output;
+                    output += $" They also have their DEF reduced by {DefShred.GetEffectsOfType(EffID.DEF, -100)}% for {DefShred.Turns} turns!";
+                    target.AddEffect(DefShred);
                 }
-                else AddEffect(blasterAtkBuff);
+                RemoveEffect(BlasterAtkBuff);
+                return output;
+            }
+            else AddEffect(BlasterAtkBuff);
             return string.Empty;
         }
         private void Phase2()
