@@ -17,6 +17,12 @@ It's silly, ridiculous even, perchance even a nightmare at times. But it's my ni
 # List of Characters
 All characters have their own unique abilities to use, and some even have special properties. Currently, the game is a 1v1 and characters are selected at the start of the game via letters (a - f).
 
+- [a. Rexulti](#rexulti)
+- [b. Bayonetta](#bayonetta)
+- [c. Raiden](#raiden)
+- [d. Cubic](#cubic)
+- [e. Mami Tomoe](#mami-tomoe)
+
 ## Rexulti
 ### Special stats
 * Starts with 80 ATK and 30 DEF, but reaches 100 ATK upon switching to Phase 2 through the Phase 1 Burst.
