@@ -185,7 +185,7 @@ namespace FrogBattleV2.Classes.Characters
                 output += $"What? {Name} missed every ribbon!? Ridiculous...";
                 AddEffect(Rage, 3);
             }
-            else output += $"{Name} tangles {target.Name} in {nr} magic ribbons! Energy regen {Tangled.GetEffectsOfType(EffID.Energy, 100) * nr}%," +
+            else output += $"{Name} tangles {target.Name} in {nr} magic ribbons! Energy Regen {Tangled.GetEffectsOfType(EffID.Energy, 100) * nr}%," +
                     $" Mana Regen {Tangled.GetEffectsOfType(EffID.ManaRecovery, 100) * nr}%!";
             if (nr == 10)
             {
@@ -217,7 +217,7 @@ namespace FrogBattleV2.Classes.Characters
                     double dmg = LightDmg(Atk, DmgType.Bullet, target);
                     totalDmg += dmg;
                     output += $"\n{Name} fires a ribbon bullet at {target.Name}, dealing {dmg:0.#} damage";
-                    if ((PrecisionStacks > 0 ? RNG < PrecisionStacks / 20.0 : RNG < RageStacks / 20.0) && x < 9)
+                    if ((PrecisionStacks > 0 ? RNG < PrecisionStacks / 20.0 : RNG >= RageStacks / 20.0) && x < 9)
                     {
                         x++;
                         output += " and getting the shot back";
@@ -308,7 +308,7 @@ namespace FrogBattleV2.Classes.Characters
                 AddEffect(Rage);
                 return '\n' + target.DodgeMsg;
             }
-            dmg = MediumDmg(Atk, 0, target);
+            dmg = MediumDmg(Atk, DmgType.None, target);
             return $"\nCharlotte seeks cheese and attacks {target.Name} for {dmg:0.#} damage!{target.TakeDamage(dmg, null)}";
         }
     }

@@ -42,6 +42,72 @@ Phase 2 ONLY:
 5. Summon friends of the enemy for three turns, who deal Medium Dmg that ignores 50% of DEF. **23 Mana**
 6. BURST: Deal Heavy Magic Dmg before stunning the target for 2 turns and gaining 35 mana alongside a 30 ATK buff (flat). **120 Energy**
 
+## Bayonetta
+### Special stats
+* Bayonetta has 3 weapons to pick from, each with 4 unique abilities. Her second weapon, the yo-yo, also boosts her speed by 10% while deployed.
+* Upon entering Phase 2, which is done by using an ability of the third weapon, Bayonetta reduces her defense but gains a permanent summon, which does Medium Magic Dmg on every turn.
+
+### Abilities
+
+Weapon 1 - "Colour My World":
+
+1. Punch and kick your opponent for Light Blunt Damage. This ability permanently improves slightly with every use. **8 Mana**
+2. Apply a 15% ATK, DEF and SPD debuff on your target for 3 turns. **25 Mana**
+3. Gain a 400 HP Shield for up to 3 turns. **20 Mana**
+4. Launch an undodgeable attack that deals Medium Bullet Dmg. **15 Mana**
+
+Weapon 2 - "Ignis Araneae Yo-Yo":
+
+1. Throw your Yo-Yo at your enemy and deal Medium Blunt Dmg. **8 Mana**
+2. Stun your target for up to 3 turns (RNG Based). **25 Mana**
+3. Deal Heavy Slash Dmg with your Yo-Yo and apply one stack of Bleed. **20 Mana**
+4. Create an explosion that deals Heavy Blast Dmg. **17 Mana**
+
+Weapon 3 - "Unforgiven":
+
+1. Curse the enemy for 3 turns, reducing their ATK and DEF by 10 (flat) and inflicting a 20 Dmg DoT. **10 Mana**
+2. Gain a buff to your ATK, DEF and SPD based on 10% of the enemy's stats for 3 turns. **25 Mana**
+3. Deal Heavy Dmg based on your SPD. **20 Mana**
+4. Switch to Phase 2 while dealing 3 instances of Heavy Magic Dmg and setting your Base ATK to 100 and Base DEF to 25. **75 Mana**  
+   If this ability was already used once in this fight, deal one instance of Heavy Magic Dmg instead. **20 Mana**
+
+Universal Abilities:
+
+5. Switch your weapon to the next. **5 Mana**
+6. BURST: Stun the enemy for 4 full turns and regenerate 30 mana. **120 Energy**
+
+## Raiden
+### Special stats
+* Raiden's first and second abilities combined can launch over 15 different attacks. This is because they can combo in a binary tree structure - launching a heavy attack after a light attack is different from launching a heavy attack right off the bat. Here's the full list of combos: (L for Light, R for Heavy)  
+  L, R, LR, RL, RR, LRL, LRR, RLR, RRL, RRR, LRLL, LRLR, RRLR, RRRL, RRRR, LLLLL, RRRLR
+* Missing an attack, trying to make a combo that doesn't exist, and skipping your turn all reset your combo.
+* Raiden's burst doesn't consume his accumulated energy. Instead, it costs 75 energy per attack and ends when you run out of energy (or after 7 turns).
+* Raiden can counterattack for Light Slash Dmg once every turn (if he dodges the attack).
+
+### Abilities
+
+1. Use a light attack. **10 Mana**
+2. Use a heavy attack. **15 Mana**
+3. Hold up your sword to block every instance of damage from the enemy's next attack. Every hit blocked regenerates 10 energy. This ability resets your combo and cannot be used during Ripper Mode. **20 Mana**
+4. Convert all of your current energy into mana with a 2.5 : 1 ratio. This ability does not end the turn. **Any Energy**
+5. BURST: Enter Ripper Mode. ATK +80%, DEF -100%, SPD +50%, Energy Regen +200%. Ripper Mode ends when energy reaches 0, or after 7 turns. **150 Energy**
+
+## Mami Tomoe
+### Special Stats
+* Mami starts with significantly lower Base SPD than everyone else, but gains one stack of Rage for every hit she misses. Many of her attacks also grant bonus Rage stacks for missing every hit. Rage stacks up to 20, and increases her damage by 1.5% per stack. Upon unleashing her burst, she consumes all Rage stacks and turns them into Precision, which increases her Bullet and Blast Dmg bonus by 3.5% and 5% respectively while also reducing her mana cost and energy regen by 2.5% and 5% respectively per stack. When Mami has Precision stacks, the enemy's dodge chance is calculated based on their amount (from 95% at 1 stack to 0% at 20 stacks) (compounding with regular dodge chance).
+* When at max energy and below 20 Rage stacks, consume 25 energy to gain one stack of Rage. 3 turn cooldown.
+
+### Abilities
+
+1. Fire multiple flintlocks at the target, dealing 4 instances of Light Bullet Dmg. Precision increases the amount of attacks, up to 6. **12 Mana**
+2. Load up a double barrel shotgun and launch 2 instances of Medium Bullet Dmg that can ignore up to 25% DEF (RNG Based). Precision increases the amount of DEF bypass, up to 100%. **14 Mana**
+3. Summon a musket barrier to protect you for up to 5 turns. The barrier can nullify 3 instances of damage, as well as deal damage to the attacker and heal for 100% of damage dealt. **27 Mana**
+4. Fire a cheese-imbued bullet at the enemy. If it hits, Charlotte will attack the enemy for 3 turns, dealing Medium Dmg. There may or may not be a 1% chance for her to deal 10x more damage. **25 Mana**
+5. Summon 10 Magic Ribbons that assault your target, regenerating 2 mana and reducing their Energy and Mana Regen by 10% per successful hit. If all 10 ribbons hit, stun the enemy for 1 turn. Precision also adds a -15% SPD debuff upon using this attack, but reduces mana regenerated by each ribbon. **45 Mana**
+6. Summon 3 recursive bullets. Each bullet has a chance to be recalled upon both hits and misses, up to 12 shots total. This ability is more effective at lower Rage stacks. **17 Mana**
+7. Fire a barrage of 100 pellets with reduced accuracy, and deal Bullet Dmg based on the amount of hits. If you miss at least 60 shots, steal up to 25 mana from the opponent. If you miss at least 80 shots, stun the enemy for 1 - 3 turns, while also executing the previous effect. **33 Mana**
+8. BURST: Turn all your Rage stacks into Precision and fire a giant blaster, dealing Massive Blast Dmg, followed by 3 subsequent Heavy Bullet Dmg attacks. Also reduce the enemy's Bullet and Blast RES by up to 24% and 45% respectively, based on the amount of Precision stacks. **180 Energy**
+
 ## Cubic
 ### Special stats
 * Starts with 250 SPD. Each dodge he takes reduces his speed until he takes damage, at which point he switches to Phase 2, regenerating HP and Mana based on SPD above 100.
@@ -78,7 +144,16 @@ Phase 3:
   - [Rexulti](#rexulti)
     - [Special stats](#special-stats)
     - [Abilities](#abilities)
-  - [Cubic](#cubic)
+  - [Bayonetta](#bayonetta)
     - [Special stats](#special-stats-1)
     - [Abilities](#abilities-1)
+  - [Raiden](#raiden)
+    - [Special stats](#special-stats-2)
+    - [Abilities](#abilities-2)
+  - [Mami Tomoe](#mami-tomoe)
+    - [Special Stats](#special-stats-3)
+    - [Abilities](#abilities-3)
+  - [Cubic](#cubic)
+    - [Special stats](#special-stats-4)
+    - [Abilities](#abilities-4)
 - [Sections](#sections)

@@ -17,7 +17,7 @@ namespace FrogBattleV2.Classes.Characters
         private bool Phase2 = false;
         protected override string SpecialStat => weaponName[weapon].ToUpper();
         // Stuff unique to Bayonetta
-        private readonly string[] weaponName = { "Colour my World", "Ignis Araneae Yo-Yo", "Unforgiven" };
+        private readonly string[] weaponName = { "Colour My World", "Ignis Araneae Yo-Yo", "Unforgiven" };
         private readonly List<List<Ability>> Weapons;
         public override string DodgeMsg { get { return $"{Name} dodges the attack while doing a sexy pose!"; } }
 
@@ -38,7 +38,7 @@ namespace FrogBattleV2.Classes.Characters
                 });
         private static readonly StatusEffect burstDebuff = new("Witch Time", PropID.Unremovable, 4, 1,
                     new StatusEffect.Effect(EffID.Energy, -1, true));
-        private static readonly StatusEffect umbraShield = new("Umbra Shield", 0, 4, 1,
+        private static readonly StatusEffect umbraShield = new("Umbra Shield", PropID.None , 4, 1,
                     new StatusEffect.Shield(400));
         private static StatusEffect YoyoBuff => yoyoBuff.Clone();
         private static StatusEffect MistressDebuff => mistressDebuff.Clone();
@@ -168,7 +168,7 @@ namespace FrogBattleV2.Classes.Characters
             if (target.Dodge(this)) return target.DodgeMsg;
             GetEnergy(18);
             double stealRatio = 0.1;
-            AddEffect(new("Demon-Proof", 0, 3, 1, new StatusEffect.Effect[]
+            AddEffect(new("Demon-Proof", PropID.None, 4, 1, new StatusEffect.Effect[]
             {
                     new(EffID.ATK, target.Atk * stealRatio, false),
                     new(EffID.DEF, target.Def * stealRatio, false),
@@ -180,7 +180,7 @@ namespace FrogBattleV2.Classes.Characters
         {
             if (target.Dodge(this)) return target.DodgeMsg;
             GetEnergy(20);
-            double dmg = HeavyDmg(Spd, 0, target, 0.4);
+            double dmg = HeavyDmg(Spd, DmgType.None, target, 0.4);
             return $"{Name} does a very sexy dance! Unfortunately, {target.Name} is " +
                 $"too unsexy to appreciate it, and takes {dmg:0.#} emotional damage!{target.TakeDamage(dmg, this)}";
         }
