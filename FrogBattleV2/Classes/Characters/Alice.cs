@@ -58,8 +58,10 @@ namespace FrogBattleV2.Classes.Characters
                 });
             }
         }
+        private static readonly StatusEffect spdBuff = new("Quick Reflexes", PropID.None, 3, 3, new Effect(EffID.SPD, 0.1, true));
         private static StatusEffect KnifeRain => knifeRain.Clone();
         private static StatusEffect Checkmate => checkmate.Clone();
+        private static StatusEffect SpdBuff => spdBuff.Clone();
 
         #endregion
 
@@ -76,7 +78,7 @@ namespace FrogBattleV2.Classes.Characters
                 new(Ability3, new(mana: 30), null, (user) => Raining > 0 ? AbilityBlocked : AbilityUsable),
                 new(Ability4, new(mana: 16), null),
                 new(Ability5, new(mana: 24), null),
-                new(Burst, new(energy: MaxEnergy, costType: Cost.CostType.ReverseCost), null)
+                new(Burst, new(energy: MaxEnergy / 5, costType: Cost.CostType.ReverseCost), null)
             };
             FollowUp = new(FollowUpAction, new(), null);
             AddEffect(AllTypeRES);
@@ -103,6 +105,7 @@ namespace FrogBattleV2.Classes.Characters
         
         public override string TakeDamage(double damage, Fighter? source)
         {
+            if (RNG < 0.1) AddEffect(SpdBuff);
             return base.TakeDamage(damage, source) + (!Phase2 && CurrentHp <= 0 ? GoPhase2() : string.Empty);
         }
         private string GoPhase2()

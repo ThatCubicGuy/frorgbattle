@@ -7,8 +7,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FrogBattleV2", "FrogBattleV
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FrogBattleV2_TestPlace", "FrogBattleV2_TestPlace\FrogBattleV2_TestPlace.csproj", "{104AC012-F9A4-4FF7-914B-2B3601AA4199}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FrogBattleV2_AdventureMode", "FrogBattleV2_AdventureMode\FrogBattleV2_AdventureMode.csproj", "{9DE5797D-78EE-4AEE-9E6A-9C48C93BF6EA}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -23,10 +21,6 @@ Global
 		{104AC012-F9A4-4FF7-914B-2B3601AA4199}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{104AC012-F9A4-4FF7-914B-2B3601AA4199}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{104AC012-F9A4-4FF7-914B-2B3601AA4199}.Release|Any CPU.Build.0 = Release|Any CPU
-		{9DE5797D-78EE-4AEE-9E6A-9C48C93BF6EA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{9DE5797D-78EE-4AEE-9E6A-9C48C93BF6EA}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{9DE5797D-78EE-4AEE-9E6A-9C48C93BF6EA}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{9DE5797D-78EE-4AEE-9E6A-9C48C93BF6EA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
