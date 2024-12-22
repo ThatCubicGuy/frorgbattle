@@ -48,19 +48,19 @@ namespace FrogBattleV2.Classes.Characters
         private static StatusEffect EvilFoodEater => _evilFoodEater.Clone();
         private static StatusEffect DemonDealBurnout => demonDealBurnout.Clone();
         #endregion
-        public Ability Summon { get; }
+        public Summon Summoned { get; }
         public Rexulti(string name) : base(name, 1.00, 80, 30, 100, 120)
         {
             Abilities = new()
             {
-                new(Ability11, new(mana: 11), null),
-                new(Ability12, new(mana: 18), null),
-                new(Ability13, new(mana: 16, health: 100), null),
-                new(Ability14, new(mana: 22), null),
-                new(Ability15, new(mana: 20), null),
-                new(Burst, new(energy: MaxEnergy), null)
+                new(Ability11, new(mana: 11)),
+                new(Ability12, new(mana: 18)),
+                new(Ability13, new(mana: 16, health: 100)),
+                new(Ability14, new(mana: 22)),
+                new(Ability15, new(mana: 20)),
+                new(Burst, new(energy: MaxEnergy))
             };
-            Summon = new(SummonAction, new(), null);
+            Summoned = new(new(SummonAction, new()), "Fake friends", this);
             AddEffect(SlashRES);
         }
         #region Phase 1 abilities
@@ -148,12 +148,12 @@ namespace FrogBattleV2.Classes.Characters
             output += $"\nHaving ascended to a higher plane of existence, {Name} completely reworks his abilites!";
             Abilities = new()
             {
-                new(Ability21, new(mana: 14), null),
-                new(Ability22, new(mana: 15), null),
-                new(Ability23, new(mana: 20), null),
-                new(Ability24, new(mana: 25), null),
-                new(Ability25, new(mana: 23), null),
-                new(Burst2, new(energy: MaxEnergy), null)
+                new(Ability21, new(mana: 14)),
+                new(Ability22, new(mana: 15)),
+                new(Ability23, new(mana: 20)),
+                new(Ability24, new(mana: 25)),
+                new(Ability25, new(mana: 23)),
+                new(Burst2, new(energy: MaxEnergy))
             };
             Phase2 = true;
             return output;
@@ -263,7 +263,7 @@ namespace FrogBattleV2.Classes.Characters
                 if (target.Dodge(this)) return output + target.DodgeMsg;
                 double dmg = MediumDmg(Atk, DmgType.None, target, 0.5);
                 output += $"They lose {dmg:0.#} HP!";
-                output += target.TakeDamage(dmg, null);
+                output += target.TakeDamage(dmg, Summoned);
                 target.AddEffect(SinfulCreatureDebuff);
                 return output;
             }

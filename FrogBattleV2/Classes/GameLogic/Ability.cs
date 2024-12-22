@@ -52,11 +52,10 @@ namespace FrogBattleV2.Classes.GameLogic
         }
         public Func<Fighter, AbilityCheckResult>? CustomUnusabilityConditions;
         public Func<Fighter, Fighter, AbilityEffect>? CalculateEffects; // Nullable due to incomplete implementation.
-        public Ability(Func<Fighter, string> action, Cost cost, Func<Fighter, Fighter, AbilityEffect>? effects, Func<Fighter, AbilityCheckResult>? customUnusabilityConditions = null, AbilityCheckResult? successValue = null)
+        public Ability(Func<Fighter, string> action, Cost cost, Func<Fighter, AbilityCheckResult>? customUnusabilityConditions = null, AbilityCheckResult? successValue = null)
         {
             _Action = action;
             AbilityCost = cost;
-            CalculateEffects = effects;
             CustomUnusabilityConditions = customUnusabilityConditions;
             SuccessValue = successValue ?? Fighter.AbilityUsable;
         }

@@ -17,7 +17,7 @@ namespace FrogBattleV2.Classes.Characters
         private uint DemonDice = 0;
         private double totalDmg;
         private bool Phase2 = false;
-        private int DressType;
+        private readonly int DressType;
         private readonly string[] DressNames = { "Classic", "Checkmate", "Fleshmaiden", "Cheshire" };
         private Demons ActiveDemon;
         private enum Demons
@@ -71,14 +71,14 @@ namespace FrogBattleV2.Classes.Characters
             CurrentEnergy = MaxEnergy;
             Abilities = new List<Ability>()
             {
-                new(Ability1, new(mana: 12), null),
-                new(Ability2, new(mana: 18), null),
-                new(Ability3, new(mana: 30), null, (user) => Raining > 0 ? AbilityBlocked : AbilityUsable),
-                new(Ability4, new(mana: 16), null),
-                new(Ability5, new(mana: 24), null),
-                new(Burst, new(energy: MaxEnergy, costType: Cost.CostType.ReverseCost), null)
+                new(Ability1, new(mana: 12)),
+                new(Ability2, new(mana: 18)),
+                new(Ability3, new(mana: 30), (user) => Raining > 0 ? AbilityBlocked : AbilityUsable),
+                new(Ability4, new(mana: 16)),
+                new(Ability5, new(mana: 24)),
+                new(Burst, new(energy: MaxEnergy, costType: Cost.CostType.ReverseCost))
             };
-            FollowUp = new(FollowUpAction, new(), null);
+            FollowUp = new(FollowUpAction, new());
             AddEffect(AllTypeRES);
             DressType = (int)Math.Floor(RNG * DressNames.Length);
             switch (DressType)

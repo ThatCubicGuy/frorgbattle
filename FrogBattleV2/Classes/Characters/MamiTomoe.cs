@@ -23,7 +23,7 @@ namespace FrogBattleV2.Classes.Characters
             GetEnergy(10);
             return output + $"\n{Name} also heals for {dmg:0.#} HP!";
         }
-        public Ability Summon { get; }
+        public Summon Summoned { get; }
         #region Unique StatusEffects
         private static readonly StatusEffect musketBarrier = new("Guard Muskets", PropID.Unremovable | PropID.Invisible, 6, 1, new StatusEffect.Effect(EffID.Barrier, 3, false));
         private static readonly StatusEffect cheesed = new("Cheesed", PropID.Debuff, 5, 1);
@@ -62,16 +62,16 @@ namespace FrogBattleV2.Classes.Characters
         {
             Abilities = new List<Ability>()
             {
-                new(Ability1, new(mana: 12), null),
-                new(Ability2, new(mana: 14), null),
-                new(Ability3, new(mana: 27), null),
-                new(Ability4, new(mana: 25), null),
-                new(Ability5, new(mana: 45), null),
-                new(Ability6, new(mana: 17), null),
-                new(Ability7, new(mana: 33), null),
-                new(Burst, new(energy: MaxEnergy), null)
+                new(Ability1, new(mana: 12)),
+                new(Ability2, new(mana: 14)),
+                new(Ability3, new(mana: 27)),
+                new(Ability4, new(mana: 25)),
+                new(Ability5, new(mana: 45)),
+                new(Ability6, new(mana: 17)),
+                new(Ability7, new(mana: 33)),
+                new(Burst, new(energy: MaxEnergy))
             };
-            Summon = new(SummonAction, new(), null);
+            Summoned = new(new(SummonAction, new()), "Charlotte", this);
             AddEffect(BluntRES);
         }
         public override void GetEnergy(double energy)
@@ -300,8 +300,8 @@ namespace FrogBattleV2.Classes.Characters
             if (RNG < 0.01)
             {
                 dmg = MediumDmg(Atk * 10, DmgType.None, target);
-                return $"\nCharlotte REALLY NEEDS that cheese and goes a bit overboard, chomping off {target.Name}'s" +
-                    $" head and dealing {dmg:0.#} damage!{target.TakeDamage(dmg, null)}";
+                return $"\n{Summoned.Name} REALLY NEEDS that cheese and goes a bit overboard, chomping off {target.Name}'s" +
+                    $" head and dealing {dmg:0.#} damage!{target.TakeDamage(dmg, Summoned)}";
             }
             if (RNG >= PrecisionStacks / 20.0 && target.Dodge(this))
             {
@@ -309,7 +309,7 @@ namespace FrogBattleV2.Classes.Characters
                 return '\n' + target.DodgeMsg;
             }
             dmg = MediumDmg(Atk, DmgType.None, target);
-            return $"\nCharlotte seeks cheese and attacks {target.Name} for {dmg:0.#} damage!{target.TakeDamage(dmg, null)}";
+            return $"\n{Summoned.Name} seeks cheese and attacks {target.Name} for {dmg:0.#} damage!{target.TakeDamage(dmg, Summoned)}";
         }
     }
 }

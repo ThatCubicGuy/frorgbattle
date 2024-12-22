@@ -43,6 +43,10 @@ internal class Program
                     player1 = new Alice(players1[5]);
                     players1[5] = players2[5];
                     break;
+                case "g":
+                    player1 = new Kongle(players1[6]);
+                    players1[6] = players2[6];
+                    break;
                 case "z":
                     player1 = new God("God");
                     break;
@@ -76,6 +80,9 @@ internal class Program
                     break;
                 case "f":
                     player2 = new Alice(players1[5]);
+                    break;
+                case "g":
+                    player2 = new Kongle(players1[6]);
                     break;
                 case "z":
                     player2 = new God("Jesus");

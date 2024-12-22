@@ -8,8 +8,22 @@ namespace FrogBattleV2_TestPlace
 {
     internal class MyClass
     {
-        public int nr1 = 1;
-        public int nr2 = 3;
-        public int nr3 = 2;
+        public string Name { get; set; }
+        public MyClass(string name)
+        {
+            Name = name;
+        }
+        public string actiones()
+        {
+            return $"My name is {this.Name}!";
+        }
+    }
+    internal class MyClass2 : MyClass
+    {
+        public Func<string> Action { get; set; }
+        public MyClass2(string name, Func<string> action) : base(name)
+        {
+            Action = action;
+        }
     }
 }

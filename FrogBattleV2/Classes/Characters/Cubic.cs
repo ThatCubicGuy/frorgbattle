@@ -80,20 +80,19 @@ namespace FrogBattleV2.Classes.Characters
             }
         }
 
-
         public Cubic(string name) : base(name, 0.75, 60, 0, 250, 250)
         {
             CurrentMana = 60;
             AddEffect(StabRES);
             Abilities = new List<Ability>()
             {
-                new(Ability11, new(mana: 20), null),
-                new(Ability12, new(mana: 20), null),
-                new(Ability13, new(mana: 20), null),
-                new(Ability14, new(mana: 15), null),
-                new(Ability15, new(mana: 20), null)
+                new(Ability11, new(mana: 20)),
+                new(Ability12, new(mana: 20)),
+                new(Ability13, new(mana: 20)),
+                new(Ability14, new(mana: 15)),
+                new(Ability15, new(mana: 20))
             };
-            FollowUp = new(FollowUpAction, new(), null);
+            FollowUp = new(FollowUpAction, new());
         }
         #region Overrides
         public override bool Dodge(Fighter target)
@@ -344,11 +343,11 @@ namespace FrogBattleV2.Classes.Characters
         {
             Abilities.AddRange(new List<Ability>()
             {
-                new(Ability21, new(mana: 40), null),
-                new(Ability22, new(mana: 20), null, user => Charging ? AbilityBlocked : AbilityUsable),
-                new(Ability23, new(mana: 15), null),
-                new(Ability24, new(mana: 20), null),
-                new(Ability25, new(mana: 22), null)
+                new(Ability21, new(mana: 40)),
+                new(Ability22, new(mana: 20), user => Charging ? AbilityBlocked : AbilityUsable),
+                new(Ability23, new(mana: 15)),
+                new(Ability24, new(mana: 20)),
+                new(Ability25, new(mana: 22))
             });
             Phase = 2;
             BaseHp += (BaseSpd - 100) * 10;
@@ -370,8 +369,8 @@ namespace FrogBattleV2.Classes.Characters
             ActiveEffects.Remove(Phase2EnergyBuff);
             Abilities.AddRange(new List<Ability>()
             {
-                new(Ability31, new(mana: 50), null),
-                new(Ability32, new(mana: 25), null)
+                new(Ability31, new(mana: 50)),
+                new(Ability32, new(mana: 25))
             });
             BaseAtk = 100;
             BaseDef = 20;

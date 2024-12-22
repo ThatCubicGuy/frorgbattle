@@ -46,44 +46,44 @@ namespace FrogBattleV2.Classes.Characters
         private static StatusEffect BurstDebuff => burstDebuff.Clone();
         private static StatusEffect UmbraShield => umbraShield.Clone();
         #endregion
-        public Ability Summon { get; }
+        public Summon Summoned { get; }
 
         public Bayonetta(string name) : base(name, 1.00, 70, 50, 100, 120)
         {
             AddEffect(MagicRES);
-            Ability switchWeapons = new(Ability5, new(mana: 5), null);
-            Ability burst = new(Burst, new(energy: MaxEnergy), null);
+            Ability switchWeapons = new(Ability5, new(mana: 5));
+            Ability burst = new(Burst, new(energy: MaxEnergy));
             Weapons = new()
             {
                 new()
                 {
-                    new(Ability11, new(mana: 8), null),
-                    new(Ability12, new(mana: 25), null),
-                    new(Ability13, new(mana : 20), null),
-                    new(Ability14, new(mana: 15), null),
+                    new(Ability11, new(mana: 8)),
+                    new(Ability12, new(mana: 25)),
+                    new(Ability13, new(mana : 20)),
+                    new(Ability14, new(mana: 15)),
                     switchWeapons,
                     burst
                 },
                 new()
                 {
-                    new(Ability21, new(mana: 8), null),
-                    new(Ability22, new(mana: 25), null),
-                    new(Ability23, new(mana : 20), null),
-                    new(Ability24, new(mana: 17), null),
+                    new(Ability21, new(mana: 8)),
+                    new(Ability22, new(mana: 25)),
+                    new(Ability23, new(mana : 20)),
+                    new(Ability24, new(mana: 17)),
                     switchWeapons,
                     burst
                 },
                 new()
                 {
-                    new(Ability31, new(mana: 10), null),
-                    new(Ability32, new(mana: 25), null),
-                    new(Ability33, new(mana : 20), null),
-                    new(Ability34, new(mana: 75), null),
+                    new(Ability31, new(mana: 10)),
+                    new(Ability32, new(mana: 25)),
+                    new(Ability33, new(mana : 20)),
+                    new(Ability34, new(mana: 75)),
                     switchWeapons,
                     burst
                 }
             };
-            Summon = new(SummonAction, new(), null);
+            Summoned = new(new(SummonAction, new()), "Wicked Weave", this);
             Abilities = Weapons[0];
         }
         #region Weapon 1 Abilities
@@ -200,8 +200,8 @@ namespace FrogBattleV2.Classes.Characters
             BaseAtk = 100;
             BaseDef = 25;
             Phase2 = true;
-            Weapons[2][3] = Abilities[3] = new(Ability342, new(mana: 20), null);
-            return output + $"\n{Name} gets serious! Wicked Weave is summoned!";
+            Weapons[2][3] = Abilities[3] = new(Ability342, new(mana: 20));
+            return output + $"\n{Name} gets serious! {Summoned.Name} is summoned!";
         }
         private string Ability342(Fighter target)
         {
@@ -221,7 +221,7 @@ namespace FrogBattleV2.Classes.Characters
             else if (weapon == 1)
             {
                 weapon = 2;
-                if (!RemoveEffect(YoyoBuff)) throw new KeyNotFoundException("Unable to remove YoyoBuff!");
+                if (!RemoveEffect(YoyoBuff)) throw new Exception("Unable to remove YoyoBuff!");
             }
             else
             {
@@ -234,10 +234,10 @@ namespace FrogBattleV2.Classes.Characters
         {
             if (!Phase2) return string.Empty;
             GetEnergy(5);
-            string output = $"\nWicked Weave charges at {target.Name}!\n";
-            if (target.Dodge(this)) return output + target.DodgeMsg;
-            double dmg = MediumDmg(Atk, DmgType.Magic, target);
-            output += $"They get hit for {dmg:0.#} damage!{target.TakeDamage(dmg, this)}";
+            string output = $"\n{Summoned.Name} charges at {target.Name}!\n";
+            if (target.Dodge(Summoned)) return output + target.DodgeMsg;
+            double dmg = MediumDmg(Summoned.Atk, DmgType.Magic, target);
+            output += $"They get hit for {dmg:0.#} damage!{target.TakeDamage(dmg, Summoned)}";
             return output;
         }
         public string Burst(Fighter target)

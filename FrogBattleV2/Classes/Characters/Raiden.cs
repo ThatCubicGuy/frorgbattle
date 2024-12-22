@@ -110,11 +110,11 @@ namespace FrogBattleV2.Classes.Characters
             SelectedWeapon = HFBlade();
             Abilities = new()
             {
-                new(Ability1, new DynamicCost(this, user => ((Raiden)user).RipperMode ? new(energy: 75, health: 50, costType: Cost.CostType.SoftCost) : new(mana: 10)), null),
-                new(Ability2, new DynamicCost(this, user => ((Raiden)user).RipperMode ? new(energy: 75, health: 75, costType: Cost.CostType.SoftCost) : new(mana: 15)), null),
-                new(Ability3, new(mana: 20), null, user => RipperMode ? AbilityBlocked : AbilityUsable),
-                new(Ability4, new(), null, successValue: RepeatsTurn),
-                new(Burst, new(energy: MaxEnergy), null, (user) => RipperMode ? AbilityBlocked : AbilityUsable),
+                new(Ability1, new DynamicCost(this, user => ((Raiden)user).RipperMode ? new(energy: 75, health: 50, costType: Cost.CostType.SoftCost) : new(mana: 10))),
+                new(Ability2, new DynamicCost(this, user => ((Raiden)user).RipperMode ? new(energy: 75, health: 75, costType: Cost.CostType.SoftCost) : new(mana: 15))),
+                new(Ability3, new(mana: 20), user => RipperMode ? AbilityBlocked : AbilityUsable),
+                new(Ability4, new(), successValue: RepeatsTurn),
+                new(Burst, new(energy: MaxEnergy), (user) => RipperMode ? AbilityBlocked : AbilityUsable),
             };
             AddEffect(BulletRES);
         }

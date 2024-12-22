@@ -12,7 +12,7 @@ using static FrogBattleV2.Classes.GameLogic.Ability;
 
 namespace FrogBattleV2.Classes.GameLogic
 {
-    internal abstract class Fighter
+    internal abstract class Fighter : ITakesAction
     {
         protected int BaseHp;
         protected int BaseAtk;
@@ -154,7 +154,7 @@ namespace FrogBattleV2.Classes.GameLogic
         }
         public virtual int StunTime { get; protected set; }
 
-        protected Ability SkipTurn => new(SkipTurnAction, new(), null);
+        protected Ability SkipTurn => new(SkipTurnAction, new());
 
         #region Common buffs and debuffs that can be reimplemented by different fighters
         private static readonly StatusEffect bleed = new("Bleed", PropID.Debuff, 2, 4, new StatusEffect.DamageOverTime(DotID.Bleed, 0.0125));
@@ -211,7 +211,6 @@ namespace FrogBattleV2.Classes.GameLogic
             BaseSpd = baseSpd;
             MaxEnergy = maxEnergy;
             Name = name;
-            { } // :)
         }
         protected virtual string SkipTurnAction(Fighter target)
         {
@@ -286,6 +285,10 @@ namespace FrogBattleV2.Classes.GameLogic
             }
             return new(result.Status, output);
         }
+        public AbilityCheckResult PlayTurn(Fighter target)
+        {
+            return PlayTurn(target, 0);
+        }
 
         protected virtual void TurnStartResets() { return; }
 
@@ -315,7 +318,8 @@ namespace FrogBattleV2.Classes.GameLogic
         {
             if (damage > 0)
             {
-                string output = this is ICounters counters ? counters.Counter(target) : string.Empty;
+                double damageCopy = damage;
+                string output = string.Empty;
                 GetEnergy(3 + damage / 50);
                 if (GetEffectsValue(EffID.Barrier, 0) > 0)  // If there's a barrier active
                 {
@@ -331,6 +335,10 @@ namespace FrogBattleV2.Classes.GameLogic
                     else output += ShieldBreak(target);
                 }
                 CurrentHp -= damage;
+                if (this is ICounters ctr && target != null)
+                {
+                    output += ctr.Counter.ExecuteAbility(this, target).Message;
+                }
                 return output;
             }
             return $"\n0 damage? {Name} is amused.";
@@ -575,7 +583,7 @@ namespace FrogBattleV2.Classes.GameLogic
             else abilityResult = Abilities[nr-1].ExecuteAbility(this, target);
             //if (this is IFollowsUp followsUp && abilityResult.IsUsable) return abilityResult with { Message = abilityResult.Message + followsUp.FollowUp.ExecuteAbility(this, target).Message };
             //if (this is IAbilityBonus bonus && ???) return abilityResult with { Message = abilityResult.Message + bonus.Bonus.ExecuteAbility(this, target).Message };
-            if (abilityResult.CanContinue) return abilityResult + (nr != 0 && this is IFollowsUp followsUp ? followsUp.FollowUp.ExecuteAbility(this, target) : AbilityCheckResult.Empty) + (this is ISummons summons ? summons.Summon.ExecuteAbility(this, target) : AbilityCheckResult.Empty);
+            if (abilityResult.CanContinue) return abilityResult + (nr != 0 && this is IFollowsUp followsUp ? followsUp.FollowUp.ExecuteAbility(this, target) : AbilityCheckResult.Empty) + (this is ISummons summons ? summons.Summoned.PlayTurn(target, 0) : AbilityCheckResult.Empty);
             else return abilityResult;
         }
         internal AbilityCheckResult CheckUsability(Ability ability)
