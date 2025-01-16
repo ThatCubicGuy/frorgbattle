@@ -318,7 +318,6 @@ namespace FrogBattleV2.Classes.GameLogic
         {
             if (damage > 0)
             {
-                double damageCopy = damage;
                 string output = string.Empty;
                 GetEnergy(3 + damage / 50);
                 if (GetEffectsValue(EffID.Barrier, 0) > 0)  // If there's a barrier active
@@ -334,7 +333,7 @@ namespace FrogBattleV2.Classes.GameLogic
                     if (damage == 0) return output + '\n' + ShieldBlock(target);
                     else output += ShieldBreak(target);
                 }
-                CurrentHp -= damage;
+                ReduceHP(damage);
                 if (this is ICounters ctr && target != null)
                 {
                     output += ctr.Counter.ExecuteAbility(this, target).Message;
@@ -353,9 +352,9 @@ namespace FrogBattleV2.Classes.GameLogic
             }
             return dmg;
         }
-        public virtual void TakeTrueDamage(double damage)
+        public void ReduceHP(double damage)
         {
-            CurrentHp -= damage;
+            if (damage > 0) CurrentHp -= damage;
         }
         /// <summary>
         /// Calculates attacker stats (damage bonus and variation) before returning the final value as an integer.
@@ -609,7 +608,7 @@ namespace FrogBattleV2.Classes.GameLogic
             {
                 CurrentMana -= ability.AbilityCost.ManaCost + GetEffectsValue(EffID.ManaCost, ability.AbilityCost.ManaCost);
                 CurrentEnergy -= ability.AbilityCost.EnergyCost;
-                TakeTrueDamage(ability.AbilityCost.HealthCost);
+                ReduceHP(ability.AbilityCost.HealthCost);
             }
         }
     }

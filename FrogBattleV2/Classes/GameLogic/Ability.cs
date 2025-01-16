@@ -15,7 +15,6 @@ namespace FrogBattleV2.Classes.GameLogic
         {
             Success,
             RepeatsTurn,
-            Incomplete,
             FighterStunned,
             NoResources,
             TemporarilyBlocked,
@@ -27,20 +26,18 @@ namespace FrogBattleV2.Classes.GameLogic
             public bool CanContinue => Status switch
             {
                 AbilityStatus.Success => true,
-                AbilityStatus.Incomplete => true,
                 AbilityStatus.FighterStunned => true,
                 _ => false
             };
             public bool IsUsable => Status switch
             {
                 AbilityStatus.Success => true,
-                AbilityStatus.Incomplete => true,
                 AbilityStatus.RepeatsTurn => true,
                 _ => false
             };
             public static AbilityCheckResult operator +(AbilityCheckResult left, AbilityCheckResult right)
             {
-                return new(right.IsUsable ? left.Status : AbilityStatus.Incomplete, left.Message + right.Message);
+                return new(left.Status, left.Message + right.Message);
             }
         }
         public AbilityCheckResult ExecuteAbility(Fighter user, Fighter target)

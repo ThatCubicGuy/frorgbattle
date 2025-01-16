@@ -1,14 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml;
-using FrogBattleV2.Classes.GameLogic;
+﻿using FrogBattleV2.Classes.GameLogic;
 
 namespace FrogBattleV2.Classes.Characters
 {
-    internal class Kongle : Fighter, ICounters, ISummons
+    internal class Kongle : Fighter, ICounters//, ISummons
     {
         public Ability Counter { get; }
         public Ability Summon { get; }

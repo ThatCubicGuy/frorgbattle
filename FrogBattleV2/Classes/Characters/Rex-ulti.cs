@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.NetworkInformation;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml;
-using FrogBattleV2.Classes.GameLogic;
+﻿using FrogBattleV2.Classes.GameLogic;
 using DotID = FrogBattleV2.Classes.GameLogic.StatusEffect.DamageOverTime.DotID;
 using EffID = FrogBattleV2.Classes.GameLogic.StatusEffect.Effect.EffectID;
 using PropID = FrogBattleV2.Classes.GameLogic.StatusEffect.PropertyID;
@@ -93,7 +86,7 @@ namespace FrogBattleV2.Classes.Characters
             GetEnergy(20);
             string output = $"STAB! What? Why would you do that!? {target.Name} is baffled!\n";
             int dmg = 100;
-            TakeTrueDamage(dmg);
+            ReduceHP(dmg);
             AddEffect(StabBuff);
             output += $"{Name} stabs himself, taking {dmg:0.#} damage but getting a {StabBuff.GetEffectsOfType(EffID.ATK, 100)}% ATK buff for {StabBuff.Turns} turns!";
             return output;
@@ -104,7 +97,7 @@ namespace FrogBattleV2.Classes.Characters
             GetEnergy(20);
             double dmg = Atk * DmgRNG;
             output += $"{Name} ignores literally anything that influences the damage {target.Name} should take and directly reduces their HP by {dmg:0.#}!";
-            target.TakeTrueDamage(dmg);
+            target.ReduceHP(dmg);
             return output;
         }
         private string Ability15(Fighter target)
