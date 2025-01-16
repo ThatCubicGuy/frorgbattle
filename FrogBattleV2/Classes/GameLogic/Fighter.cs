@@ -276,12 +276,7 @@ namespace FrogBattleV2.Classes.GameLogic
             }
             if (result.CanContinue)
             {
-                double dmg = CalculateDoT(target);
-                if (dmg > 0)
-                {
-                    output += $"\n{Name} also takes {dmg:0.#} damage from DoT!{TakeDamage(dmg, null)}";
-                }
-                EffectChecks();
+                output += EndingEffectChecks(target);
             }
             return new(result.Status, output);
         }
@@ -490,15 +485,26 @@ namespace FrogBattleV2.Classes.GameLogic
             }
             return output;
         }
-        protected void EffectChecks()
+        protected void StartingEffectChecks(Fighter target)
+        {
+            throw new NotImplementedException(); //Cooking some distinctions tbh
+        }
+        protected string EndingEffectChecks(Fighter target)
         { // End of turn effect checks
             RegenMana(5);
+            string output = string.Empty;
             if (StunTime > 0) StunTime--;
             else
             {
+                double dmg = CalculateDoT(target);
+                if (dmg > 0)
+                {
+                    output += $"\n{Name} also takes {dmg:0.#} damage from DoT!{TakeDamage(dmg, null)}";
+                }
                 ActiveEffects.ForEach(StatusEffect.Expire);
                 ActiveEffects.RemoveAll(StatusEffect.Expired);
             }
+            return output;
         }
         /// <summary>
         /// Gets the cumulative value for buffs and debuffs of the same type.

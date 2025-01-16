@@ -222,11 +222,10 @@ namespace FrogBattleV2.Classes.Characters
                         x++;
                         output += " and getting the shot back";
                     }
-                    else if (i < 5) AddEffect(Rage);
+                    else if (RageStacks < 10) AddEffect(Rage);
                     output += '!' + target.TakeDamage(dmg, this);
                 }
             }
-            if (x < 7) AddEffect(Rage, (uint)(7 - x));
             if (totalDmg > 0) output += $"\n{Name} dealt a total of {totalDmg:0.#} damage to {target.Name}!";
             else
             {

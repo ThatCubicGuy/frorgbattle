@@ -11,7 +11,15 @@ namespace FrogBattleV2.Classes.GameLogic
 {
     internal class StatusEffect : ICloneable
     {
-
+        private void ReplaceEffects(List<Effect> eff)
+        {
+            List<Effect> eff2 = new();
+            foreach (var item in eff)
+            {
+                eff2.Add((Effect)(item as ICloneable).Clone());
+            }
+            Effects = eff2;
+        }
         private static int _statusEffectID = 0;
         private readonly int UID;
 
@@ -50,8 +58,12 @@ namespace FrogBattleV2.Classes.GameLogic
         /// A single consequence of a StatusEffect. These can influence stats in many ways, and have 3 values -
         /// the type of the effect, the value, and whether it's percentage based or not.
         /// </summary>
-        internal class Effect
+        internal class Effect : ICloneable
         {
+            object ICloneable.Clone()
+            {
+                return (Effect)MemberwiseClone();
+            }
             public enum EffectID
             { // KEEP DmgType BONUS AND RES NEXT TO EACHOTHER IN EffectID!!!!!!!!!!!!!!!!!!!!
                 Shield,
@@ -332,7 +344,9 @@ namespace FrogBattleV2.Classes.GameLogic
         }
         public StatusEffect Clone()
         {
-            return (StatusEffect)MemberwiseClone();
+            StatusEffect clone = (StatusEffect)MemberwiseClone();
+            clone.ReplaceEffects(Effects);
+            return clone;
         }
         // Why are there 5 billion things I need to implement and make them do the same thing bruh
         public static bool operator ==(StatusEffect? a, StatusEffect? b)
@@ -376,3 +390,4 @@ namespace FrogBattleV2.Classes.GameLogic
 }//*/
     }
 }
+// amogussss
