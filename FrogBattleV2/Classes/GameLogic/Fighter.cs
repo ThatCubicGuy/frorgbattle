@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.Specialized;
-using System.Linq;
-using System.Reflection.Metadata;
-using System.Text;
-using System.Threading.Tasks;
-using DotID = FrogBattleV2.Classes.GameLogic.StatusEffect.DamageOverTime.DotID;
+﻿using DotID = FrogBattleV2.Classes.GameLogic.StatusEffect.DamageOverTime.DotID;
 using EffID = FrogBattleV2.Classes.GameLogic.StatusEffect.Effect.EffectID;
 using PropID = FrogBattleV2.Classes.GameLogic.StatusEffect.PropertyID;
 using static FrogBattleV2.Classes.GameLogic.Ability;
@@ -40,7 +33,7 @@ namespace FrogBattleV2.Classes.GameLogic
         /// <summary>
         /// List containing every ability usable by the fighter.
         /// </summary>
-        protected internal List<Ability> Abilities { get; protected set; } = [];
+        protected internal List<Ability> Abilities { get; protected set; } = new();
 
         protected virtual string SpecialStat => string.Empty;
 
