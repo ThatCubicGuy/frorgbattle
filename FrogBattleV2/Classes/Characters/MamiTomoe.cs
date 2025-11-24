@@ -1,12 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml;
-using FrogBattleV2.Classes.GameLogic;
-using DotID = FrogBattleV2.Classes.GameLogic.StatusEffect.DamageOverTime.DotID;
+﻿using FrogBattleV2.Classes.GameLogic;
 using EffID = FrogBattleV2.Classes.GameLogic.StatusEffect.Effect.EffectID;
 using PropID = FrogBattleV2.Classes.GameLogic.StatusEffect.PropertyID;
 
@@ -62,16 +54,16 @@ namespace FrogBattleV2.Classes.Characters
         {
             Abilities = new List<Ability>()
             {
-                new(Ability1, new(mana: 12)),
-                new(Ability2, new(mana: 14)),
-                new(Ability3, new(mana: 27)),
-                new(Ability4, new(mana: 25)),
-                new(Ability5, new(mana: 45)),
-                new(Ability6, new(mana: 17)),
-                new(Ability7, new(mana: 33)),
-                new(Burst, new(energy: MaxEnergy))
+                new(Ability1, new Cost(mana: 12)),
+                new(Ability2, new Cost(mana: 14)),
+                new(Ability3, new Cost(mana: 27)),
+                new(Ability4, new Cost(mana: 25)),
+                new(Ability5, new Cost(mana: 45)),
+                new(Ability6, new Cost(mana: 17)),
+                new(Ability7, new Cost(mana: 33)),
+                new(Burst, new Cost(energy: MaxEnergy))
             };
-            Summoned = new(new(SummonAction, new()), "Charlotte", this);
+            Summoned = new Summon(new Ability(SummonAction, new Cost()), "Charlotte", this);
             AddEffect(BluntRES);
         }
         public override void GetEnergy(double energy)

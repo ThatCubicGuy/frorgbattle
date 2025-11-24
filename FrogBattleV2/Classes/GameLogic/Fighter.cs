@@ -36,28 +36,23 @@ namespace FrogBattleV2.Classes.GameLogic
         // List of all abilities. This allows each character to
         // have a different amount of them, and it's not a
         // nightmare to implement in Program.cs
+
         /// <summary>
         /// List containing every ability usable by the fighter.
         /// </summary>
-        private List<Ability> _abilities = new();
-        protected internal virtual List<Ability> Abilities
-        {
-            get
-            {
-                return _abilities;
-            }
-            protected set
-            {
-                _abilities = value;
-            }
-        }
-        protected virtual string SpecialStat { get { return string.Empty; } }
+        protected internal List<Ability> Abilities { get; protected set; } = [];
+
+        protected virtual string SpecialStat => string.Empty;
+
         /// <summary>
         /// Returns a random double precision floating-point number that is greater or equal to 0.0, and less than 1.0.
         /// </summary>
-        protected static double RNG { get { return random.NextDouble(); } }
-        protected static double DmgRNG { get { return RNG / 5 + 0.9; } }
-        public virtual string DodgeMsg { get { return $"{Name} dodges the attack!"; } }
+        protected static double RNG => random.NextDouble();
+
+        protected static double DmgRNG => RNG / 5 + 0.9;
+
+        public virtual string DodgeMsg => $"{Name} dodges the attack!";
+
         // Unlike a string such as ShieldBlockMsg, a method that returns these strings lets us do extra things
         // when someone blocks with a shield, or when it breaks, etc. It's quite handy and lets me go nuts.
         public virtual string ShieldBlock(Fighter? target) { return $"{Name}'s shield blocked all of the damage!"; }

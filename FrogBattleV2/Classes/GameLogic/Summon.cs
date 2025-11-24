@@ -16,13 +16,14 @@ namespace FrogBattleV2.Classes.GameLogic
         {
             Summoner = summoner;
             Attack = action;
+            Abilities.Clear();
             Abilities.Add(Attack);
         }
-        public Summon(Ability action, string name, Fighter summoner) : base(name, 99999, (int)summoner.Atk, (int)summoner.Def, (int)summoner.Spd, 0)
+
+        public Summon(Ability action, string name, Fighter summoner) : this(action, name, summoner, 99999,
+            (int)summoner.Atk, (int)summoner.Def, (int)summoner.Spd)
         {
-            Summoner = summoner;
-            Attack = action;
-            Abilities.Add(Attack);
+            
         }
     }
 }
