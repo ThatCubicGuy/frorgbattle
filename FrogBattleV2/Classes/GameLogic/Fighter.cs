@@ -576,7 +576,7 @@ namespace FrogBattleV2.Classes.GameLogic
             else abilityResult = Abilities[nr-1].ExecuteAbility(this, target);
             //if (this is IFollowsUp followsUp && abilityResult.IsUsable) return abilityResult with { Message = abilityResult.Message + followsUp.FollowUp.ExecuteAbility(this, target).Message };
             //if (this is IAbilityBonus bonus && ???) return abilityResult with { Message = abilityResult.Message + bonus.Bonus.ExecuteAbility(this, target).Message };
-            if (abilityResult.CanContinue) return abilityResult + (nr != 0 && this is IFollowsUp followsUp ? followsUp.FollowUp.ExecuteAbility(this, target) : AbilityCheckResult.Empty) + (this is ISummons summons ? summons.Summoned.PlayTurn(target, 0) : AbilityCheckResult.Empty);
+            if (abilityResult.CanContinue) return abilityResult + (nr != 0 && this is IFollowsUp followsUp ? followsUp.FollowUp.ExecuteAbility(this, target) : AbilityCheckResult.Empty) + (this is ISummons summons ? summons.Summoned.PlayTurn(target, 1) : AbilityCheckResult.Empty);
             else return abilityResult;
         }
         internal AbilityCheckResult CheckUsability(Ability ability)
