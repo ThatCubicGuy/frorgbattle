@@ -88,6 +88,7 @@ Universal Abilities:
   L, R, LR, RL, RR, LRL, LRR, RLR, RRL, RRR, LRLL, LRLR, RRLR, RRRL, RRRR, LLLLL, RRRLR
 * Missing an attack, trying to make a combo that doesn't exist, and skipping your turn all reset your combo.
 * Raiden's burst doesn't consume his accumulated energy. Instead, it costs 75 energy per attack and ends when you run out of energy (or after 7 turns).
+* His burst also turns his mana cost into HP cost: 100 HP for a light attack, 150 HP for a heavy attack.
 * Raiden can counterattack for Light Slash Dmg once every turn (if he dodges the attack).
 
 ### Abilities
