@@ -31,8 +31,10 @@ namespace FrogBattleV2.Classes.Characters
         private static readonly StatusEffect _evilFoodEater = new("Evil Food Eater", PropID.Unremovable, 3, 1, new StatusEffect.Effect[]
                 {
                     new(EffID.ATK, 30, false),
+                    new(EffID.Energy, -0.8, true),
                 });
         private static readonly StatusEffect demonDealBurnout = new("Demon Deal Cooldown", PropID.Debuff | PropID.Unremovable | PropID.Invisible, 3, 10);
+        private static readonly StatusEffect revolverBurnout = new("Revolver Cooldown", PropID.Debuff | PropID.Unremovable | PropID.Invisible, 3, 2);
 
         private static StatusEffect PissRain => _pissRain.Clone();
         private static StatusEffect StabBuff => _stabBuff.Clone();
@@ -40,6 +42,7 @@ namespace FrogBattleV2.Classes.Characters
         private static StatusEffect BribeDebuff => _bribeDebuff.Clone();
         private static StatusEffect EvilFoodEater => _evilFoodEater.Clone();
         private static StatusEffect DemonDealBurnout => demonDealBurnout.Clone();
+        private static StatusEffect RevolverBurnout => revolverBurnout.Clone();
         #endregion
         public Summon Summoned { get; }
         public Rexulti(string name) : base(name, 1.00, 80, 30, 100, 120)
@@ -103,6 +106,7 @@ namespace FrogBattleV2.Classes.Characters
         private string Ability15(Fighter target)
         {
             string output = $"{Name} loads up his revolver!\n";
+            AddEffect(RevolverBurnout);
             if (target.Dodge(this)) return output + target.DodgeMsg;
             GetEnergy(17);
             double dmg = HeavyDmg(Atk, DmgType.Bullet, target);
@@ -144,7 +148,7 @@ namespace FrogBattleV2.Classes.Characters
                 new(Ability21, new(mana: 14)),
                 new(Ability22, new(mana: 15)),
                 new(Ability23, new(mana: 20)),
-                new(Ability24, new(mana: 25)),
+                new(Ability24, new(mana: 33)),
                 new(Ability25, new(mana: 23)),
                 new(Burst2, new(energy: MaxEnergy))
             };
@@ -179,15 +183,16 @@ namespace FrogBattleV2.Classes.Characters
             double dmg = -1;
             for (int i = 1; i <= 3; i++)
             {
-                if (target.Dodge(this) || RNG < (ActiveEffects.FirstOrDefault(DemonDealBurnout.Equals)?.Stacks ?? 0) / 10)
+                if (target.Dodge(this) || RNG < (ActiveEffects.FirstOrDefault(DemonDealBurnout.Equals)?.Stacks ?? 0) / 5)
                 {
+                    GetEnergy(-15);
                     double dmg2 = LightDmg(Atk, DmgType.Magic, this);
-                    output += $"\nDemon #{i} DOESN'T take the deal! He instead deals {(int)dmg2} damage to {Name}!";
+                    output += $"\nDemon #{i} DOESN'T take the deal! He instead deals {(int)dmg2} damage to {Name} and reduces his energy!";
                     output += TakeDamage(dmg2, null);
                 }
                 else
                 {
-                    GetEnergy(10);
+                    GetEnergy(6.5);
                     dmg = MediumDmg(Atk, DmgType.Magic, target);
                     double manaRegen = RegenMana(5);
                     output += $"\nDemon #{i} TAKES the deal! {target.Name} loses {dmg:0.#} HP while {Name} receives {manaRegen:0.#} mana!";
@@ -202,6 +207,15 @@ namespace FrogBattleV2.Classes.Characters
         {
             string output = $"{Name} REALLY loads up his revolver!";
             double dmg = -1;
+            AddEffect(RevolverBurnout);
+            if (ActiveEffects.First(x => x.Name == "Revolver Cooldown").Stacks == 2)
+            {
+                GetEnergy(-40);
+                dmg = MassiveDmg(120, DmgType.Blast, this);
+                output += $"\nOH NO! {Name}'s revolver EXPLODES in their face from the bullet overload, dealing {(int)Math.Round(dmg)} damage!";
+                output += TakeDamage(dmg, this);
+                return output;
+            }
             for (int i = 1; i <= 3; i++)
             {
                 if (target.Dodge(this)) output += '\n' + target.DodgeMsg;

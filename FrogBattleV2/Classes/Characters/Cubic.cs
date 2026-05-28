@@ -322,21 +322,23 @@ namespace FrogBattleV2.Classes.Characters
         #endregion
         public string FollowUpAction(Fighter target)
         {
-            if (Charging && RNG < 0.2)
-            {
-                Charging = false;
-                double dmg = HeavyDmg(Atk, DmgType.Blast, target, 0.5) + HeavyDmg(Atk, DmgType.Blast, target, 0.5);
-                string output = $"\n{target.Name} also gets BLASTED by the previously charging blaster for {dmg:0.#} damage!";
-                output += target.TakeDamage(dmg, this);
-                if (!target.Dodge(this))
+            if (Charging) {
+                if (RNG < 0.2)
                 {
-                    output += $" They also have their DEF reduced by {DefShred.GetEffectsOfType(EffID.DEF, -100)}% for {DefShred.Turns} turns!";
-                    target.AddEffect(DefShred);
+                    Charging = false;
+                    double dmg = HeavyDmg(Atk, DmgType.Blast, target, 0.5) + HeavyDmg(Atk, DmgType.Blast, target, 0.5);
+                    string output = $"\n{target.Name} also gets BLASTED by the previously charging blaster for {dmg:0.#} damage!";
+                    output += target.TakeDamage(dmg, this);
+                    if (!target.Dodge(this))
+                    {
+                        output += $" They also have their DEF reduced by {DefShred.GetEffectsOfType(EffID.DEF, -100)}% for {DefShred.Turns} turns!";
+                        target.AddEffect(DefShred);
+                    }
+                    RemoveEffect(BlasterAtkBuff);
+                    return output;
                 }
-                RemoveEffect(BlasterAtkBuff);
-                return output;
+                else AddEffect(BlasterAtkBuff);
             }
-            else AddEffect(BlasterAtkBuff);
             return string.Empty;
         }
         private void Phase2()

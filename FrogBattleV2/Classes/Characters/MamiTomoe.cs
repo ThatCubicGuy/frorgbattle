@@ -38,7 +38,7 @@ namespace FrogBattleV2.Classes.Characters
                     new(EffID.Energy, -0.05, true)
                 });
         private static readonly StatusEffect peaceful = new("Peaceful", PropID.Debuff | PropID.Unremovable, 1, 6, new StatusEffect.Effect(EffID.DmgBonus, -0.1, true));
-        private static readonly StatusEffect energyCooldown = new("Energy to Rage CD", PropID.Debuff | PropID.Unremovable | PropID.Invisible, 4, 1);
+        private static readonly StatusEffect energyCooldown = new("Energy to Rage CD", PropID.Debuff | PropID.Unremovable | PropID.Invisible, 3, 1);
         private static StatusEffect MusketBarrier => musketBarrier.Clone();
         private static StatusEffect Cheesed => cheesed.Clone();
         private static StatusEffect Tangled => tangled.Clone();
