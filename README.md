@@ -44,7 +44,7 @@ Phase 2 ONLY:
 1. Summon the powers of communism and deal Heavy Dmg of no type to the target. **14 Mana**
 2. Bribe some demons to reduce the ATK, DEF and SPD of the target by 25%. **15 Mana**
 3. Attempt to make 3 deals with demons. Each successful deal does Medium Magic Dmg to the target and regenerates 5 mana. Failures result in self-inflicted Light Magic Dmg. This ability's success rate declines with repeated uses. **20 Mana**
-4. Shoot 3 silver bullets at the target, dealing Heavy Bullet Dmg for every hit and stealing a buff from the enemy if at least one bullet hit the target. **25 Mana**
+4. Shoot 3 silver bullets at the target, dealing Heavy Bullet Dmg for every hit and stealing a buff from the enemy if at least one bullet hit the target. Using it repeatedly may lead to horrific failure. **33 Mana**
 5. Summon friends of the enemy for three turns, who deal Medium Dmg that ignores 50% of DEF. **23 Mana**
 6. BURST: Deal Heavy Magic Dmg before stunning the target for 2 turns and gaining 35 mana alongside a 30 ATK buff (flat). **120 Energy**
 
