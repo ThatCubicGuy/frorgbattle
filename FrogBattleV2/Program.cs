@@ -131,14 +131,15 @@ internal class Program
                 Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine(ex.Message);
                 Console.ForegroundColor = ConsoleColor.Cyan;
+                // garbage ahh code :wilted_rose:
                 try
                 {
-                    _ = player1.Hp;
-                    Console.WriteLine($"{player1.Name} is declared the winner!");
+                    if (player1.Hp > 0) Console.WriteLine($"{player1.Name} is declared the winner!");
                 }
                 catch
                 {
-                    Console.WriteLine($"{player2.Name} is declared the winner!");
+                    if (player2.Hp > 0) Console.WriteLine($"{player2.Name} is declared the winner!");
+                    else Console.WriteLine($"{player1.Name} is declared the winner!");
                 }
                 Console.ForegroundColor = ConsoleColor.White;
             }

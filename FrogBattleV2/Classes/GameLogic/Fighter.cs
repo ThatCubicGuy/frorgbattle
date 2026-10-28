@@ -403,6 +403,8 @@ namespace FrogBattleV2.Classes.GameLogic
             CurrentHp += value;
             return value;
         }
+
+        protected event Action<int>? OnStun;
         public virtual string Stun(int turns, Fighter source)
         { // Stun has a chance to be resisted based on SPD and 
           // the amount of turns that Stun is supposed to last for
@@ -417,8 +419,9 @@ namespace FrogBattleV2.Classes.GameLogic
             }
             if (turns > StunTime) StunTime = turns;
             if (turns == 0) return $"\n{Name} is too fast to get stunned!";
-            //else if (nr > 0) return $"\n{Name} proves resilient and only gets stunned for {turns} of the {turns+nr} rounds!";
-            else return $"\n{Name} gets stunned for {turns} rounds!";
+            OnStun?.Invoke(turns);
+            if (nr > 0) return $"\n{Name} proves resilient and only gets stunned for {turns} of the {turns+nr} rounds!";
+            return $"\n{Name} gets stunned for {turns} rounds!";
         }
         public void TrueStun(int turns)
         {

@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml;
-using FrogBattleV2.Classes.GameLogic;
+﻿using FrogBattleV2.Classes.GameLogic;
 using DotID = FrogBattleV2.Classes.GameLogic.StatusEffect.DamageOverTime.DotID;
 using EffID = FrogBattleV2.Classes.GameLogic.StatusEffect.Effect.EffectID;
 using PropID = FrogBattleV2.Classes.GameLogic.StatusEffect.PropertyID;
@@ -108,6 +101,7 @@ namespace FrogBattleV2.Classes.Characters
         public Raiden(string name) : base(name, 0.80, 100, 30, 110, 150)
         {
             SelectedWeapon = HFBlade();
+            OnStun += _ => { SelectedWeapon.ResetCombo(); };
             Abilities = new()
             {
                 new(Ability1, new DynamicCost(this, user => ((Raiden)user).RipperMode ? new(energy: 75, health: 50, costType: Cost.CostType.SoftCost) : new(mana: 10))),

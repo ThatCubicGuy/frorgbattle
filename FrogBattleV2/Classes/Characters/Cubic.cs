@@ -302,7 +302,7 @@ namespace FrogBattleV2.Classes.Characters
         #region Phase 3 Abilities
         public string Ability31(Fighter target)
         {
-            string output = $"{Name} uses 3 random abilities!\n\n";
+            string output = $"{Name} uses 3 random abilities!";
             double tempMana = Mana;
             CurrentMana = 100000;
             for(int i = 0; i < 3; i++)
@@ -310,6 +310,7 @@ namespace FrogBattleV2.Classes.Characters
                 int selector = (int)Math.Floor(RNG * 10);
                 var result = PlayTurn(target, selector);
                 if (!result.IsUsable) i--;
+                else output += $"\n\n{Name} uses ability {selector}!\n{result.Message}";
             }
             CurrentMana = tempMana;
             return output;
@@ -322,7 +323,8 @@ namespace FrogBattleV2.Classes.Characters
         #endregion
         public string FollowUpAction(Fighter target)
         {
-            if (Charging) {
+            if (Charging)
+            {
                 if (RNG < 0.2)
                 {
                     Charging = false;
@@ -337,24 +339,25 @@ namespace FrogBattleV2.Classes.Characters
                     RemoveEffect(BlasterAtkBuff);
                     return output;
                 }
-                else AddEffect(BlasterAtkBuff);
+
+                AddEffect(BlasterAtkBuff);
             }
             return string.Empty;
         }
         private void Phase2()
         {
-            Abilities.AddRange(new List<Ability>()
-            {
+            Abilities.AddRange([
                 new(Ability21, new(mana: 40)),
-                new(Ability22, new(mana: 20), user => Charging ? AbilityBlocked : AbilityUsable),
+                new(Ability22, new(mana: 20), _ => Charging ? AbilityBlocked : AbilityUsable),
                 new(Ability23, new(mana: 15)),
                 new(Ability24, new(mana: 20)),
                 new(Ability25, new(mana: 22))
-            });
+            ]);
             Phase = 2;
+            Name = "Cubic II";
             BaseHp += (BaseSpd - 100) * 10;
             CurrentHp = BaseHp;
-            RegenMana((BaseSpd - 100) / 2);
+            RegenMana((BaseSpd - 100) / 2.0);
             BaseSpd = 100;
             BaseAtk = 80;
             BaseDef = 30;
@@ -369,17 +372,16 @@ namespace FrogBattleV2.Classes.Characters
             Name = Name.ToUpper();
             Phase = 3;
             ActiveEffects.Remove(Phase2EnergyBuff);
-            Abilities.AddRange(new List<Ability>()
-            {
+            Abilities.AddRange([
                 new(Ability31, new(mana: 50)),
                 new(Ability32, new(mana: 25))
-            });
+            ]);
             BaseAtk = 100;
             BaseDef = 20;
             BaseSpd = 120;
             MaxEnergy = 0;
             AddEffect(Determination);
-            CurrentHp = Math.Max(BaseHp / 2, Hp);
+            CurrentHp = Math.Max(BaseHp / 2.0, Hp);
             return $"\nNo... not yet. You won't get past {Name} that easily. And now, during their final breaths... they will give it their all!";
         }
     }
